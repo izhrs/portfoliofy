@@ -9,9 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 
-SECRET_KEY = "django-insecure-fr58uuta!g$2$v3yoq=vgkm(c4-(t6rrlbf5z%lbj7xymxcc80"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('ENV') != 'PROD'
+DEBUG = os.getenv('ENV') != 'production'
 
 os.getenv('ALLOWED_HOSTS').split(',') or [
     'localhost', '127.0.0.1']
@@ -26,6 +26,8 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "corsheaders",
+
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -45,7 +47,9 @@ ROOT_URLCONF = "portfoliofy.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / 'templates',
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -90,6 +94,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+
 
 LANGUAGE_CODE = "en-us"
 
@@ -106,3 +112,13 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_USE_TLS = True

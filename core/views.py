@@ -63,7 +63,7 @@ class ContactViewSet(viewsets.ViewSet):
             )
         except Exception as e:
             return Response(
-                {"error": str(e)},
+                {"error": "An error occurred while sending the email."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

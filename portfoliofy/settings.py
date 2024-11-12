@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('ENV') != 'production'
 
-os.getenv('ALLOWED_HOSTS').split(',') or [
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',') or [
     'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [

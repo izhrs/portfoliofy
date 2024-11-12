@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
@@ -65,10 +66,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "portfoliofy.wsgi.application"
 
 
+POSTGRES_URL = urlparse(os.getenv("DATABASE_URL"))
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_URL.path.replace('/', ''),
+        'USER': POSTGRES_URL.username,
+        'PASSWORD': POSTGRES_URL.password,
+        'HOST': POSTGRES_URL.hostname,
+        'PORT': 5432,
     }
 }
 

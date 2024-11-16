@@ -6,6 +6,41 @@ from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from .models import Project, Testimonial
+from .serializers import ProjectSerializer, TestimonialSerializer
+
+
+class ProjectViewSet(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+
+    def retrieve_all_projects(self, request, *args, **kwargs):
+        try:
+            projects = Project.objects.all().order_by("created_at")
+            serializer = ProjectSerializer(projects, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"error": "An unexpected error occurred while fetching projects."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class TestimonialViewSet(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+
+    def retrieve_all_testimonials(self, request, *args, **kwargs):
+        try:
+            testimonials = Testimonial.objects.all()
+            serializer = TestimonialSerializer(testimonials, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"error": "An unexpected error occurred while fetching testimonials."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
 
 class ContactViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]

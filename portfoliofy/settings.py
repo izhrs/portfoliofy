@@ -14,12 +14,10 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('ENV') != 'productio'
+DEBUG = os.getenv('ENV') != 'production'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',') or [
     'localhost', '127.0.0.1']
-
-print(ALLOWED_HOSTS)
 
 INSTALLED_APPS = [
     "unfold",

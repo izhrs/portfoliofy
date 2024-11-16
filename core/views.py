@@ -15,7 +15,7 @@ class ProjectViewSet(viewsets.ViewSet):
 
     def retrieve_all_projects(self, request, *args, **kwargs):
         try:
-            projects = Project.objects.all().order_by("created_at")
+            projects = Project.objects.all().order_by("-created_at")
             serializer = ProjectSerializer(projects, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:

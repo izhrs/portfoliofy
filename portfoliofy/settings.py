@@ -4,6 +4,8 @@ from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
+from .unfold_config import generate_unfold_config
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,12 +14,19 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('ENV') != 'production'
+DEBUG = os.getenv('ENV') != 'productio'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',') or [
     'localhost', '127.0.0.1']
 
+print(ALLOWED_HOSTS)
+
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -109,7 +118,7 @@ CORS_ALLOWED_ORIGINS = os.getenv(
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -142,3 +151,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 EMAIL_USE_TLS = True
+
+# Unfold settings
+UNFOLD = generate_unfold_config(
+    brand_name="PORTFOLIOFY", frontend_url=FRONTEND_URL)

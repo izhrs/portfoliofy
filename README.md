@@ -22,8 +22,11 @@ Portfoliofy is a Django REST Framework (DRF)-powered backend built to support a 
 -   **Personal Blog Platform**
 
     -   Fully featured blogging system.
-    -   Create, edit, delete, and retrieve blog posts.
+    -   Create, edit, delete, and retrieve blog posts in admin dashboard.
+    -   Supports markdown for rich text editing.
+    -   SEO-friendly URLs.
     -   Handles categories, posts and featured post.
+    -   API endpoints to _read_ blog posts dynamically on the frontend.
 
 -   **Admin Panel Enhancements**
 
@@ -39,8 +42,6 @@ Portfoliofy is a Django REST Framework (DRF)-powered backend built to support a 
 
 -   **Deployment**
     -   Hosted on [Vercel](https://vercel.com/) for fast and reliable delivery.
-
----
 
 ## Tech Stack
 

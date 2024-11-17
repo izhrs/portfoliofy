@@ -79,6 +79,22 @@ def generate_unfold_config(brand_name: str, frontend_url: str):
                 },
 
                 {
+                    "title": _("Blog"),
+                    "items": [
+                        {
+                            "title": _("Categories"),
+                            "icon": "category",
+                            "link": reverse_lazy("admin:blog_category_changelist"),
+                        },
+                        {
+                            "title": _("Posts"),
+                            "icon": "article",
+                            "link": reverse_lazy("admin:blog_post_changelist"),
+                        },
+                    ],
+                },
+
+                {
                     "title": _("Users and Groups"),
                     "collapsible": True,
                     "items": [

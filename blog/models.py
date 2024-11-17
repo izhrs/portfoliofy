@@ -70,7 +70,7 @@ class PostContent(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return f"{self.blog.title} - Content {self.id}"
+        return f"Section {self.id}"
 
     def save(self, *args, **kwargs):
         # delete old image if new image is uploaded

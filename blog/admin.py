@@ -8,7 +8,8 @@ from .models import Category, Post, PostContent
 
 class PostContentInline(StackedInline):
     model = PostContent
-    extra = 1
+    can_delete = True
+    show_change_link = True
 
     formfield_overrides = {
         models.TextField: {

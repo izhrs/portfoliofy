@@ -17,17 +17,17 @@ Portfoliofy is a Django REST Framework (DRF)-powered backend built to support a 
 
 -   **Testimonial Management**
 
-    -   API for adding, updating, and retrieving testimonials to showcase user feedback.
+    -   API endpoints to display testimonials dynamically on the frontend.
 
 -   **Personal Blog Platform**
 
     -   Fully featured blogging system.
     -   Create, edit, delete, and retrieve blog posts.
-    -   Handles categories, tags, and comments.
+    -   Handles categories, posts and featured post.
 
 -   **Admin Panel Enhancements**
 
-    -   Beautiful and functional admin interface with [Django Unfold](https://django-unfold.com/).
+    -   Beautiful and functional admin interface with [Django Unfold](https://unfoldadmin.com).
 
 -   **Media Management**
 
@@ -57,7 +57,7 @@ Follow these steps to set up the project locally:
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/portfoliofy.git
+    git clone https://github.com/izharxyz/portfoliofy.git
     cd portfoliofy
     ```
 
@@ -133,11 +133,12 @@ Follow these steps to set up the project locally:
 
     -   `/api/v1/testimonials/` - GET request to retrieve all testimonials.
 
--   **Blog (coming soon)**
-    -   `/api/v1/posts/` - GET request to retrieve all blog posts.
-    -   `/api/v1/posts/<slug>/` - GET request to retrieve a single blog post.
-    -   `/api/v1/categories/` - GET request to retrieve all blog categories.
-    -   `/api/v1/categories/<slug>/` - GET request to retrieve a single blog category.
+-   **Blog**
+    -   `/api/v1/blog/posts/` - GET request to retrieve all blog posts.
+    -   `/api/v1/blog/posts/<slug>/` - GET request to retrieve a single blog post.
+    -   `/api/v1/blog/posts/featured` - GET request to retrieve featured blog posts.
+    -   `/api/v1/blog/categories/` - GET request to retrieve all blog categories.
+    -   `/api/v1/blog/categories/<slug>/` - GET request to retrieve a single blog category.
 
 ## License
 

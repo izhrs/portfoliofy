@@ -16,10 +16,10 @@ class StandardPagination(PageNumberPagination):
 class BlogViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
-    # Retrieve all posts with pagination
+    # Retrieve all posts with pagination, excluding featured posts
     def retrieve_all_posts(self, request, *args, **kwargs):
         try:
-            posts = Post.objects.all().order_by("-updated_at")
+            posts = Post.objects.filter(featured=False).order_by("-updated_at")
             paginator = StandardPagination()
             paginated_posts = paginator.paginate_queryset(posts, request)
             serializer = PostSerializer(paginated_posts, many=True)
@@ -64,11 +64,12 @@ class BlogViewSet(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-    # Retrieve posts by category with pagination
+    # Retrieve posts by category with pagination, excluding featured posts
     def retrieve_posts_by_category(self, request, *args, **kwargs):
         try:
             category = Category.objects.get(slug=kwargs['slug'])
-            posts = category.posts.all().order_by("-updated_at")
+            posts = category.posts.filter(
+                featured=False).order_by("-updated_at")
             paginator = StandardPagination()
             paginated_posts = paginator.paginate_queryset(posts, request)
             serializer = PostSerializer(paginated_posts, many=True)
@@ -82,5 +83,22 @@ class BlogViewSet(viewsets.ViewSet):
             print(e)
             return Response(
                 {"detail": "An unexpected error occurred while fetching posts for this category."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def retrieve_featured_post(self, request, *args, **kwargs):
+        try:
+            post = Post.objects.filter(featured=True).first()
+            if post is None:
+                return Response(
+                    {"detail": "No featured post found."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            serializer = PostSerializer(post)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"detail": "An unexpected error occurred while fetching the featured post."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

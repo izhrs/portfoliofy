@@ -4,9 +4,11 @@ from .views import BlogViewSet
 
 urlpatterns = [
     # Blog Post
-    path("",
+    path("posts/",
          BlogViewSet.as_view({"get": "retrieve_all_posts"}), name="all-posts"),
-    path("<slug:slug>/",
+    path("post/featured/",
+         BlogViewSet.as_view({"get": "retrieve_featured_post"}), name="featured-posts"),
+    path("post/<slug:slug>/",
          BlogViewSet.as_view({"get": "retrieve_post_detail"}), name="post-detail"),
 
     # Blog Category

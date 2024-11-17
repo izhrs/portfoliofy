@@ -18,9 +18,10 @@ class PostContentInline(StackedInline):
 
 
 class PostAdmin(ModelAdmin):
-    list_display = ('title', 'get_categories', 'created_at', 'updated_at')
+    list_display = ('title', 'get_categories', 'featured',
+                    'created_at', 'updated_at')
     list_filter = ('categories', 'created_at')
-    search_fields = ('title', 'categories__name', 'description')
+    search_fields = ('title', 'featued', 'categories__name', 'description')
     prepopulated_fields = {'slug': ('title',)}
     inlines = [PostContentInline]
 

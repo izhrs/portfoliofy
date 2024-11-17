@@ -15,7 +15,8 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         # delete old image if new image is uploaded
         if self.pk:
-            old_image = Category.objects.filter(pk=self.pk).first().image
+            existing_category = Category.objects.get(pk=self.pk)
+            old_image = existing_category.image
             if old_image and old_image.name != self.image.name:
                 cloudinary.uploader.destroy(old_image.name)
         super().save(*args, **kwargs)
@@ -33,6 +34,7 @@ class Post(models.Model):
     categories = models.ManyToManyField(Category, related_name="posts")
     description = models.CharField(max_length=255, null=False, blank=False)
     image = models.ImageField(upload_to='post/')
+    featured = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,9 +43,16 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        # Mark only one post as featured
+        if self.featured:
+            # Unmark all other posts as featured
+            Post.objects.exclude(pk=self.pk).filter(
+                featured=True).update(featured=False)
+
         # delete old image if new image is uploaded
         if self.pk:
-            old_image = Post.objects.filter(pk=self.pk).first().image
+            existing_post = Post.objects.get(pk=self.pk)
+            old_image = existing_post.image
             if old_image and old_image.name != self.image.name:
                 cloudinary.uploader.destroy(old_image.name)
         super().save(*args, **kwargs)
@@ -66,7 +75,8 @@ class PostContent(models.Model):
     def save(self, *args, **kwargs):
         # delete old image if new image is uploaded
         if self.pk:
-            old_image = PostContent.objects.filter(pk=self.pk).first().image
+            existing_post_content = PostContent.objects.get(pk=self.pk)
+            old_image = existing_post_content.image
             if old_image and old_image.name != self.image.name:
                 cloudinary.uploader.destroy(old_image.name)
         super().save(*args, **kwargs)

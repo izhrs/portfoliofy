@@ -21,7 +21,8 @@ class Project(models.Model):
     def save(self, *args, **kwargs):
         # Delete the old image from Cloudinary if a new image is uploaded
         if self.pk:
-            old_image = Project.objects.filter(pk=self.pk).first().image
+            existing_project = Project.objects.get(pk=self.pk)
+            old_image = existing_project.image
             if old_image and old_image.name != self.image.name:
                 cloudinary.uploader.destroy(old_image.name)
         super().save(*args, **kwargs)
@@ -48,9 +49,10 @@ class Testimonial(models.Model):
     def save(self, *args, **kwargs):
         # Delete the old image from Cloudinary if a new image is uploaded
         if self.pk:
-            old_image = Testimonial.objects.filter(pk=self.pk).first().avatar
-            if old_image and old_image.name != self.avatar.name:
-                cloudinary.uploader.destroy(old_image.name)
+            existing_testimonial = Testimonial.objects.get(pk=self.pk)
+            old_avatar = existing_testimonial.avatar
+            if old_avatar and old_avatar.name != self.avatar.name:
+                cloudinary.uploader.destroy(old_avatar.name)
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

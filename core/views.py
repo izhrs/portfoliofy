@@ -21,7 +21,7 @@ class ProjectViewSet(viewsets.ViewSet):
         except Exception as e:
             print(e)
             return Response(
-                {"error": "An unexpected error occurred while fetching projects."},
+                {"detail": "An unexpected error occurred while fetching projects."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -37,7 +37,7 @@ class TestimonialViewSet(viewsets.ViewSet):
         except Exception as e:
             print(e)
             return Response(
-                {"error": "An unexpected error occurred while fetching testimonials."},
+                {"detail": "An unexpected error occurred while fetching testimonials."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -53,7 +53,7 @@ class ContactViewSet(viewsets.ViewSet):
 
         if not user_email or not user_name or not user_message:
             return Response(
-                {"error": "All fields are required."},
+                {"detail": "All fields are required."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -93,16 +93,16 @@ class ContactViewSet(viewsets.ViewSet):
 
         except BadHeaderError:
             return Response(
-                {"error": "Invalid header found."},
+                {"detail": "Invalid header found."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e:
             return Response(
-                {"error": "An error occurred while sending the email."},
+                {"detail": "An error occurred while sending the email."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
         return Response(
-            {"message": "Message sent successfully!"},
+            {"detail": "Message sent successfully!"},
             status=status.HTTP_200_OK
         )

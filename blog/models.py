@@ -66,7 +66,7 @@ class Post(models.Model):
 class PostContent(models.Model):
     blog = models.ForeignKey(
         Post, related_name="content", on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='post/content/')
+    image = models.ImageField(upload_to='post/content/', null=True, blank=True)
     content = models.TextField()
 
     def __str__(self):

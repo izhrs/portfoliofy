@@ -10,6 +10,8 @@ urlpatterns = [
          BlogViewSet.as_view({"get": "retrieve_featured_post"}), name="featured-posts"),
     path("posts/<slug:slug>/",
          BlogViewSet.as_view({"get": "retrieve_post_detail"}), name="post-detail"),
+    path("posts/<slug:slug>/related/",
+         BlogViewSet.as_view({"get": "retrieve_related_posts"}), name="related-posts"),
 
     # Blog Category
     path("categories/",

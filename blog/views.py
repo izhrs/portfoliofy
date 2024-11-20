@@ -4,7 +4,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import Category, Post
-from .serializers import CategorySerializer, PostSerializer
+from .serializers import (CategorySerializer, PostDetailSerializer,
+                          PostSerializer)
 
 
 class StandardPagination(PageNumberPagination):
@@ -34,7 +35,7 @@ class BlogViewSet(viewsets.ViewSet):
     def retrieve_post_detail(self, request, *args, **kwargs):
         try:
             post = Post.objects.get(slug=kwargs['slug'])
-            serializer = PostSerializer(post)
+            serializer = PostDetailSerializer(post)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response(
@@ -100,5 +101,37 @@ class BlogViewSet(viewsets.ViewSet):
             print(e)
             return Response(
                 {"detail": "An unexpected error occurred while fetching the featured post."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def retrieve_related_posts(self, request, *args, **kwargs):
+        try:
+            post = Post.objects.get(slug=kwargs['slug'])
+            categories = post.categories.all()
+
+            # Fetch recent posts from the same categories, excluding the current post
+            related_posts = Post.objects.filter(
+                categories__in=categories
+            ).exclude(id=post.id).distinct().order_by("-updated_at")[:3]
+
+            # If less than 3 posts, fetch additional recent posts to make the total 3
+            if related_posts.count() < 3:
+                additional_posts = Post.objects.exclude(
+                    id__in=related_posts.values_list('id', flat=True)
+                ).exclude(id=post.id).order_by("-updated_at")[:3 - related_posts.count()]
+                related_posts = list(related_posts) + list(additional_posts)
+
+            serializer = PostSerializer(related_posts, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Post.DoesNotExist:
+            return Response(
+                {"detail": "Post not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            print(e)
+            return Response(
+                {"detail": "An unexpected error occurred while fetching related posts."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

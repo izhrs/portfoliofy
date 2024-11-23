@@ -12,6 +12,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def posts_count(self):
+        return self.posts.count()
+
     def save(self, *args, **kwargs):
         # delete old image if new image is uploaded
         if self.pk:

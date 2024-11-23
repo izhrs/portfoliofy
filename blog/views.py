@@ -69,8 +69,7 @@ class BlogViewSet(viewsets.ViewSet):
     def retrieve_posts_by_category(self, request, *args, **kwargs):
         try:
             category = Category.objects.get(slug=kwargs['slug'])
-            posts = category.posts.filter(
-                featured=False).order_by("-updated_at")
+            posts = category.posts.all().order_by("-updated_at")
             paginator = StandardPagination()
             paginated_posts = paginator.paginate_queryset(posts, request)
             serializer = PostSerializer(paginated_posts, many=True)

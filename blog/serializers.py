@@ -6,7 +6,7 @@ from .models import Category, Post, PostContent
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ["id", "name", "slug", "description", "image", "posts_count"]
 
 
 class PostContentSerializer(serializers.ModelSerializer):

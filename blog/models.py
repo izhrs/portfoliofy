@@ -39,6 +39,7 @@ class Post(models.Model):
     description = models.CharField(max_length=255, null=False, blank=False)
     image = models.ImageField(upload_to='post/')
     featured = models.BooleanField(default=False)
+    reading_time = models.PositiveIntegerField(default=5)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -53,13 +54,25 @@ class Post(models.Model):
             Post.objects.exclude(pk=self.pk).filter(
                 featured=True).update(featured=False)
 
-        # delete old image if new image is uploaded
+        # Recalculate reading time based on the content of the post
+        self.recalculate_reading_time()
+
+        # Delete old image if a new image is uploaded
         if self.pk:
             existing_post = Post.objects.get(pk=self.pk)
             old_image = existing_post.image
             if old_image and old_image.name != self.image.name:
                 cloudinary.uploader.destroy(old_image.name)
+
         super().save(*args, **kwargs)
+
+    def recalculate_reading_time(self):
+        # Calculate reading time based on the content of the post
+        # Average reading speed is 200 words per minute
+        total_words = sum(len(content.content.split())
+                          for content in self.content.all())
+        # Store reading time in minutes
+        self.reading_time = round(total_words / 200)
 
     def delete(self, *args, **kwargs):
         if self.image:

@@ -117,6 +117,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_ONLY = True
 SOCIALACCOUNT_LOGIN_ON_GET = True  # Skip intermediate page
 SOCIALACCOUNT_AUTO_SIGNUP = True

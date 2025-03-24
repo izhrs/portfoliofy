@@ -3,6 +3,7 @@ certifi==2024.8.30
 charset-normalizer==3.4.0
 cloudinary==1.41.0
 Django==5.0
+django-allauth==65.5.0
 django-cloudinary-storage==0.3.0
 django-cors-headers==4.6.0
 django-unfold==0.41.0

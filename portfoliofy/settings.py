@@ -117,7 +117,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+SOCIALACCOUNT_ONLY = True
 SOCIALACCOUNT_LOGIN_ON_GET = True  # Skip intermediate page
+SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_PROVIDERS = {
     'github': {

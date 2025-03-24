@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
+    "allauth.mfa"
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,9 @@ SOCIALACCOUNT_PROVIDERS = {
         "VERIFIED_EMAIL": True
     }
 }
+
+MFA_SUPPORTED_TYPES = ["webauthn"]
+MFA_PASSKEY_LOGIN_ENABLED = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
